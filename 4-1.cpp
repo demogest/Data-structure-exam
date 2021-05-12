@@ -60,10 +60,39 @@ void level(Tree root){
         q.pop();
     }
 }
+int getheight(Tree root){
+    if (root == NULL) return 0;
+    return getheight(root->lchild) + 1 > getheight(root->rchild) + 1  ? getheight(root->lchild) + 1 : getheight(root->rchild) + 1 ;
+}
+int getleaf(Tree root){
+    queue<Tree> q;
+    int cnt=0;
+    if (root == NULL) return 0;
+    q.push(root);
+    while(!q.empty()){
+        Tree n=q.front();
+        if (n->rchild==NULL&&n->rchild==NULL) cnt++;
+        (n->lchild!=NULL)&&(q.push(n->lchild),1);
+        (n->rchild!=NULL)&&(q.push(n->rchild),1);
+        q.pop();
+    }
+    return cnt;
+}
+int getleaf_bro(Tree root){
+    int cnt=0;
+    queue<Tree> q;
+    if (root == NULL) return 0;
+    q.push(root);
+    while(!q.empty()){
+        Tree n=q.front();
+        if (n->lchild==NULL) cnt++;
+        (n->lchild!=NULL)&&(q.push(n->lchild),1);
+        (n->rchild!=NULL)&&(q.push(n->rchild),1);
+        q.pop();
+    }
+    return cnt;
+}
 int main(){
-    string s;
-    cin>>s;
-    Tree root=preBuild(s);
     
     return 0;
 }
