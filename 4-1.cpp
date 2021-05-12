@@ -93,6 +93,49 @@ int getleaf_bro(Tree root){
     return cnt;
 }
 int main(){
-    
+    string s;
+    int k;
+    Tree root=NULL;
+    while(true){
+        cout<<"---------------------------\n";
+        cout<<"1.Prebuild\n";
+        cout<<"2.Pre.In.Post(Recursive)\n";
+        cout<<"3.Pre(Non-Recursive)\n";
+        cout<<"4.level\n";
+        cout<<"5.height\n";
+        cout<<"6.LeafNumber\n";
+        cout<<"7.LeafNumber(SonBro)\n";
+        cin>>k;
+        switch(k){
+            case 1:
+                cin>>s;
+                root=preBuild(s);
+                break;
+            case 2:
+                preprint(root);cout<<endl;
+                inprint(root);cout<<endl;
+                postprint(root);cout<<endl;
+                break;
+            case 3:
+                preorder(root);cout<<endl;
+                break;
+            case 4:
+                level(root);cout<<endl;
+                break;
+            case 5:
+                cout<<getheight(root)<<endl;
+                break;
+            case 6:
+                cout<<getleaf(root)<<endl;
+                break;
+            case 7:
+                cout<<getleaf_bro(root)<<endl;
+                break;
+            case 0:
+                return 0;
+            default:
+                continue;
+        }
+    }
     return 0;
 }
