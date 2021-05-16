@@ -71,7 +71,7 @@ int getleaf(Tree root){
     q.push(root);
     while(!q.empty()){
         Tree n=q.front();
-        if (n->rchild==NULL&&n->rchild==NULL) cnt++;
+        if (n->lchild==NULL&&n->rchild==NULL) cnt++;
         (n->lchild!=NULL)&&(q.push(n->lchild),1);
         (n->rchild!=NULL)&&(q.push(n->rchild),1);
         q.pop();
