@@ -151,17 +151,27 @@ void ALGraph::DFS(int v)
     return;
 }
 int ALGraph::Kruskal(){
+    int cnt=0;
+    for(int i=0;i<this->vexNum;i++)
+        this->visited[i] = false;
     this->sum = 0;
     make_heap(edge.begin(),edge.end(),Cmp());
     this->parent.resize(this->vexNum);
     for (int i=0;i < this->vexNum; i++)
         this->parent[i]=i;
-    while(!edge.empty()){
+    while(!edge.empty()&&cnt<this->vexNum){
         Triple tmp = edge.front();
-        if (parent[tmp.src]!=parent[tmp.dest]){
+        if (!this->visited[tmp.src]||!this->visited[tmp.dest]){
             this->sum += tmp.weight;
-            cout << tmp.src << tmp.dest << tmp.weight;
-            parent[tmp.src] < parent[tmp.dest] ? parent[tmp.dest] = parent[tmp.src] : parent[tmp.src] = parent[tmp.dest];
+            cout << tmp.src <<" "<< tmp.dest <<" "<< tmp.weight<<endl;
+            if (!this->visited[tmp.src]){
+                this->visited[tmp.src] = true;
+                cnt++;
+            }
+            if (!this->visited[tmp.dest]){
+                this->visited[tmp.dest] = true;
+                cnt++;
+            }
         }
         pop_heap(edge.begin(),edge.end(),Cmp());
         edge.pop_back();
@@ -213,6 +223,7 @@ int main(){
                 break;
             case 3:
                 list->Kruskal();
+                cout<<endl;
                 break;
             case 0:
                 return 0;
