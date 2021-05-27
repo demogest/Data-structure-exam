@@ -15,7 +15,7 @@ struct Triple{
 };
 
 typedef struct VNode{
-    int vertex;
+    char vertex;
     ENode* firstarc;
 }AdjList;
 
@@ -38,26 +38,27 @@ private:
     vector<bool> visited;
 
 public:
-    void CreateFromMatrix(vector<vector<int> > &a, int n, int m);
+    void CreateFromMatrix(vector<char> &vex,vector<vector<int> > &a, int n, int m);
     void CreateGraph();
     void PrintGraph();
     void DFS(int v);
     void BFS();
+    int find(int x);
     int Kruskal();
 };
 
-void ALGraph::CreateFromMatrix(vector<vector<int> > &a, int n, int m){
+void ALGraph::CreateFromMatrix(vector<char> &vex,vector<vector<int> > &a, int n, int m){
     int cnt=0;
     this->edgNum = m;
     this->vexNum = n;
+    this->parent.resize(this->vexNum);
     this->adjList.resize(this->vexNum);
     this->visited.resize(this->vexNum);
     this->edge.resize(this->edgNum);
     for (int i=0;i<this->vexNum;i++){
-        this->adjList[i].vertex = i;
+        this->adjList[i].vertex = vex[i];
         this->adjList[i].firstarc = NULL;
     }
-    cout<<a.size()<<" "<<a[0].size()<<endl;
     for (int i=0;i<a.size();i++){
         for (int j=i+1;j<a[i].size();j++){
             if (a[i][j]>0){
@@ -83,18 +84,19 @@ void ALGraph::CreateFromMatrix(vector<vector<int> > &a, int n, int m){
 
 void ALGraph::CreateGraph()
 {
-    cout << "Input the number of vertex:" << endl;
+    cout << "Input the number of vertex and edge:\n";
     cin >> this->vexNum;
     this->adjList.resize(this->vexNum);
     this->visited.resize(this->vexNum);
-    cout << "Input the number of edgNum:" << endl;
+    this->parent.resize(this->vexNum);
     cin >> this->edgNum;
     this->edge.resize(this->edgNum);
+    cout<<"Input the info of vertex:\n";
     for (int i = 0; i<this->vexNum; i++){
-        this->adjList[i].vertex = i;
+        cin>>this->adjList[i].vertex;
         this->adjList[i].firstarc = NULL;
     }
-    cout << "Input " << this->edgNum << " edge's info:" << endl;
+    cout << "Input " << this->edgNum << " edge's info:\n";
     int cnt=0;
     for (int i = 0; i<this->edgNum; i++){
         int src, dest, weight;
@@ -150,8 +152,14 @@ void ALGraph::DFS(int v)
     }
     return;
 }
+int ALGraph::find(int x){
+    return x == this->parent[x] ? x : this->parent[x] = find(this->parent[x]);
+}
 int ALGraph::Kruskal(){
-    int cnt=0;
+    for (int i=0;i<vexNum;i++){
+        this->parent[i]=i;
+    }
+    int cnt=this->vexNum;
     for(int i=0;i<this->vexNum;i++)
         this->visited[i] = false;
     this->sum = 0;
@@ -159,19 +167,13 @@ int ALGraph::Kruskal(){
     this->parent.resize(this->vexNum);
     for (int i=0;i < this->vexNum; i++)
         this->parent[i]=i;
-    while(!edge.empty()&&cnt<this->vexNum){
+    while(!edge.empty()&&cnt>1){
         Triple tmp = edge.front();
-        if (!this->visited[tmp.src]||!this->visited[tmp.dest]){
+        if (this->find(tmp.src)!=this->find(tmp.dest)){
             this->sum += tmp.weight;
             cout << tmp.src <<" "<< tmp.dest <<" "<< tmp.weight<<endl;
-            if (!this->visited[tmp.src]){
-                this->visited[tmp.src] = true;
-                cnt++;
-            }
-            if (!this->visited[tmp.dest]){
-                this->visited[tmp.dest] = true;
-                cnt++;
-            }
+            this->parent[tmp.src] = this->find(tmp.dest);
+            cnt--;
         }
         pop_heap(edge.begin(),edge.end(),Cmp());
         edge.pop_back();
@@ -179,7 +181,10 @@ int ALGraph::Kruskal(){
     cout<<"Total cost:"<<this->sum;
     return this->sum;
 }
-void CreateByMatrix(vector<vector<int> > &matrix,int &vexNum,int &edgNum){
+void CreateByMatrix(vector<char> &vex, vector<vector<int> > &matrix,int &vexNum,int &edgNum){
+    cout<<"Input the info of vertex:\n";
+    for (int i=0;i<vexNum;i++)
+        cin>>vex[i];
     cout<<"Input the info of edge:"<<endl;
     for (int i=0;i<edgNum;i++){
         int src,dest, weight;
@@ -197,6 +202,7 @@ int main(){
     int k;
     ALGraph *list = new ALGraph();
     vector<vector<int> > ma;
+    vector<char> vex;
     while(true){
         cout<<"1.Store by AdjMatrix\n";
         cout<<"2.Store by AdjList(output the result of bfs and dfs)\n";
@@ -209,8 +215,9 @@ int main(){
                 cout<<"Input the number of vertex and edge:"<<endl;
                 cin>>vexNum>>edgNum; 
                 ma.resize(vexNum,vector<int>(vexNum, 0));
-                CreateByMatrix(ma,vexNum, edgNum);
-                list->CreateFromMatrix(ma,vexNum,edgNum);
+                vex.resize(vexNum);
+                CreateByMatrix(vex,ma,vexNum, edgNum);
+                list->CreateFromMatrix(vex,ma,vexNum,edgNum);
                 break;
             case 2:
                 int root;
