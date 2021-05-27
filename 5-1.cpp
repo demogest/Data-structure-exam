@@ -232,31 +232,31 @@ int main(){
                 vex.resize(vexNum);
                 CreateByMatrix(vex,ma,vexNum, edgNum);
                 list->CreateFromMatrix(vex,ma,vexNum,edgNum);
-	            ma.clear();
+		ma.clear();
                 vex.clear();
-	            break;
+		break;
             case 2:
                 int root;
                 list->CreateGraph();
-	            if (list->getedgn()>0){                
-	                cout<<"BFS:\n";
-	                list->BFS();
+		if (list->getedgn()>0){                
+	    	    cout<<"BFS:\n";
+	    	    list->BFS();
                     //cout<<"Input the number which search begin:\n";
                     //cin>>root;
-                    cout<<"DFS:\n";
-	                list->DFS(0);
+		    cout<<"DFS:\n";
+	    	    list->DFS(0);
                     cout<<endl;
                 }
-	            else
-	                cout<<"Empty\n";
-	            list->clr();
-	            break;
+		else
+	    	    cout<<"Empty\n";
+		list->clr();
+		break;
             case 3:
-	            list->CreateGraph();
-            	cout<<"Result:\n";
+		list->CreateGraph();
+		cout<<"Result:\n";
                 list->Kruskal();
                 cout<<endl;
-	            list->clr();
+		list->clr();
                 break;
             case 0:
                 return 0;
