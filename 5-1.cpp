@@ -44,6 +44,7 @@ public:
     void PrintGraph();
     void DFS(int v);
     void BFS();
+    void Merge(int parent, int after);
     int find(int x);
     int Kruskal();
     void clr(); 
@@ -168,6 +169,12 @@ void ALGraph::DFS(int v)
 int ALGraph::find(int x){
     return x == this->parent[x] ? x : this->parent[x] = find(this->parent[x]);
 }
+void ALGraph::Merge(int parent, int after){
+    for (int i=0;i<this->parent.size();i++){
+        if (this->parent[i] == parent)
+            this->parent[i] = after;
+    }
+}
 int ALGraph::Kruskal(){
     for (int i=0;i<vexNum;i++){
         this->parent[i]=i;
@@ -185,7 +192,7 @@ int ALGraph::Kruskal(){
         if (this->find(tmp.src)!=this->find(tmp.dest)){
             this->sum += tmp.weight;
             cout << tmp.src <<" "<< tmp.dest <<" "<< tmp.weight<<endl;
-            this->parent[tmp.src] = this->find(tmp.dest);
+            Merge(this->parent[tmp.src],this->parent[tmp.dest]);
             cnt--;
         }
         pop_heap(edge.begin(),edge.end(),Cmp());
