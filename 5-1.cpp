@@ -167,7 +167,11 @@ void ALGraph::DFS(int v)
     return;
 }
 int ALGraph::find(int x){
-    return x == this->parent[x] ? x : this->parent[x] = find(this->parent[x]);
+    int p = x, t;
+    while (this->parent[p] != p) p = this->parent[p];
+    while (x != p) { t = this->parent[x]; this->parent[x] = p; x = t; }
+    return x;
+
 }
 void ALGraph::Merge(int parent, int after){
     for (int i=0;i<this->parent.size();i++){
@@ -176,9 +180,6 @@ void ALGraph::Merge(int parent, int after){
     }
 }
 int ALGraph::Kruskal(){
-    for (int i=0;i<vexNum;i++){
-        this->parent[i]=i;
-    }
     int cnt=this->vexNum;
     for(int i=0;i<this->vexNum;i++)
         this->visited[i] = false;
@@ -192,7 +193,8 @@ int ALGraph::Kruskal(){
         if (this->find(tmp.src)!=this->find(tmp.dest)){
             this->sum += tmp.weight;
             cout << tmp.src <<" "<< tmp.dest <<" "<< tmp.weight<<endl;
-            Merge(this->parent[tmp.src],this->parent[tmp.dest]);
+            this->parent[this->parent[tmp.src]] = this->parent[tmp.dest];
+            //Merge(this->parent[tmp.src],this->parent[tmp.dest]);
             cnt--;
         }
         pop_heap(edge.begin(),edge.end(),Cmp());
