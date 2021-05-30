@@ -43,7 +43,6 @@ private:
 
 public:
     int getedgn();
-    //void CreateFromMatrix(vector<char> &vex, vector<vector<int>> &a, int n, int m);
     void CreateGraph();
     void PrintGraph();
     void DFS(int v);
@@ -52,7 +51,7 @@ public:
     int find(int x);
     int Kruskal();
     void clr();
-    ALGraph() {}
+    ALGraph(vector<char> &vex, vector<vector<int>> &a, int n, int m);
     ALGraph(int a);
 };
 int ALGraph::getedgn()
@@ -66,47 +65,47 @@ void ALGraph::clr()
     this->visited.clear();
     this->edge.clear();
 }
-// void ALGraph::CreateFromMatrix(vector<char> &vex, vector<vector<int>> &a, int n, int m)
-// {
-//     int cnt = 0;
-//     this->edgNum = m;
-//     this->vexNum = n;
-//     if (this->vexNum == 0 || this->edgNum == 0)
-//         return;
-//     this->parent.resize(this->vexNum);
-//     this->adjList.resize(this->vexNum);
-//     this->visited.resize(this->vexNum);
-//     this->edge.resize(this->edgNum);
-//     for (int i = 0; i < this->vexNum; i++)
-//     {
-//         this->adjList[i].vertex = vex[i];
-//         this->adjList[i].firstarc = NULL;
-//     }
-//     for (int i = 0; i < a.size(); i++)
-//     {
-//         for (int j = i + 1; j < a[i].size(); j++)
-//         {
-//             if (a[i][j] > 0)
-//             {
-//                 ENode *temp = new ENode();
-//                 temp->weight = a[i][j];
-//                 temp->adjvex = j;
-//                 temp->next = this->adjList[i].firstarc;
-//                 this->adjList[i].firstarc = temp;
-//                 temp = new ENode();
-//                 temp->weight = a[i][j];
-//                 temp->adjvex = i;
-//                 temp->next = this->adjList[j].firstarc;
-//                 this->adjList[j].firstarc = temp;
-//                 Triple *edg = new Triple();
-//                 edg->weight = a[i][j];
-//                 edg->src = i;
-//                 edg->dest = j;
-//                 this->edge[cnt++] = *edg;
-//             }
-//         }
-//     }
-// }
+ALGraph::ALGraph(vector<char> &vex, vector<vector<int>> &a, int n, int m)
+{
+    int cnt = 0;
+    this->edgNum = m;
+    this->vexNum = n;
+    if (this->vexNum == 0 || this->edgNum == 0)
+        return;
+    this->parent.resize(this->vexNum);
+    this->adjList.resize(this->vexNum);
+    this->visited.resize(this->vexNum);
+    this->edge.resize(this->edgNum);
+    for (int i = 0; i < this->vexNum; i++)
+    {
+        this->adjList[i].vertex = vex[i];
+        this->adjList[i].firstarc = NULL;
+    }
+    for (int i = 0; i < a.size(); i++)
+    {
+        for (int j = i + 1; j < a[i].size(); j++)
+        {
+            if (a[i][j] > 0)
+            {
+                ENode *temp = new ENode();
+                temp->weight = a[i][j];
+                temp->adjvex = j;
+                temp->next = this->adjList[i].firstarc;
+                this->adjList[i].firstarc = temp;
+                temp = new ENode();
+                temp->weight = a[i][j];
+                temp->adjvex = i;
+                temp->next = this->adjList[j].firstarc;
+                this->adjList[j].firstarc = temp;
+                Triple *edg = new Triple();
+                edg->weight = a[i][j];
+                edg->src = i;
+                edg->dest = j;
+                this->edge[cnt++] = *edg;
+            }
+        }
+    }
+}
 ALGraph::ALGraph(int a)
 {
     cout << "Input the number of vertex and edge:\n";
