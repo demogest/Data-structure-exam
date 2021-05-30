@@ -43,7 +43,7 @@ private:
 
 public:
     int getedgn();
-    void CreateFromMatrix(vector<char> &vex, vector<vector<int>> &a, int n, int m);
+    //void CreateFromMatrix(vector<char> &vex, vector<vector<int>> &a, int n, int m);
     void CreateGraph();
     void PrintGraph();
     void DFS(int v);
@@ -52,6 +52,8 @@ public:
     int find(int x);
     int Kruskal();
     void clr();
+    ALGraph() {}
+    ALGraph(int a);
 };
 int ALGraph::getedgn()
 {
@@ -64,49 +66,48 @@ void ALGraph::clr()
     this->visited.clear();
     this->edge.clear();
 }
-void ALGraph::CreateFromMatrix(vector<char> &vex, vector<vector<int>> &a, int n, int m)
-{
-    int cnt = 0;
-    this->edgNum = m;
-    this->vexNum = n;
-    if (this->vexNum == 0 || this->edgNum == 0)
-        return;
-    this->parent.resize(this->vexNum);
-    this->adjList.resize(this->vexNum);
-    this->visited.resize(this->vexNum);
-    this->edge.resize(this->edgNum);
-    for (int i = 0; i < this->vexNum; i++)
-    {
-        this->adjList[i].vertex = vex[i];
-        this->adjList[i].firstarc = NULL;
-    }
-    for (int i = 0; i < a.size(); i++)
-    {
-        for (int j = i + 1; j < a[i].size(); j++)
-        {
-            if (a[i][j] > 0)
-            {
-                ENode *temp = new ENode();
-                temp->weight = a[i][j];
-                temp->adjvex = j;
-                temp->next = this->adjList[i].firstarc;
-                this->adjList[i].firstarc = temp;
-                temp = new ENode();
-                temp->weight = a[i][j];
-                temp->adjvex = i;
-                temp->next = this->adjList[j].firstarc;
-                this->adjList[j].firstarc = temp;
-                Triple *edg = new Triple();
-                edg->weight = a[i][j];
-                edg->src = i;
-                edg->dest = j;
-                this->edge[cnt++] = *edg;
-            }
-        }
-    }
-}
-
-void ALGraph::CreateGraph()
+// void ALGraph::CreateFromMatrix(vector<char> &vex, vector<vector<int>> &a, int n, int m)
+// {
+//     int cnt = 0;
+//     this->edgNum = m;
+//     this->vexNum = n;
+//     if (this->vexNum == 0 || this->edgNum == 0)
+//         return;
+//     this->parent.resize(this->vexNum);
+//     this->adjList.resize(this->vexNum);
+//     this->visited.resize(this->vexNum);
+//     this->edge.resize(this->edgNum);
+//     for (int i = 0; i < this->vexNum; i++)
+//     {
+//         this->adjList[i].vertex = vex[i];
+//         this->adjList[i].firstarc = NULL;
+//     }
+//     for (int i = 0; i < a.size(); i++)
+//     {
+//         for (int j = i + 1; j < a[i].size(); j++)
+//         {
+//             if (a[i][j] > 0)
+//             {
+//                 ENode *temp = new ENode();
+//                 temp->weight = a[i][j];
+//                 temp->adjvex = j;
+//                 temp->next = this->adjList[i].firstarc;
+//                 this->adjList[i].firstarc = temp;
+//                 temp = new ENode();
+//                 temp->weight = a[i][j];
+//                 temp->adjvex = i;
+//                 temp->next = this->adjList[j].firstarc;
+//                 this->adjList[j].firstarc = temp;
+//                 Triple *edg = new Triple();
+//                 edg->weight = a[i][j];
+//                 edg->src = i;
+//                 edg->dest = j;
+//                 this->edge[cnt++] = *edg;
+//             }
+//         }
+//     }
+// }
+ALGraph::ALGraph(int a)
 {
     cout << "Input the number of vertex and edge:\n";
     cin >> this->vexNum;
@@ -144,6 +145,8 @@ void ALGraph::CreateGraph()
         edg->src = src;
         edg->dest = dest;
         this->edge[cnt++] = *edg;
+        delete edg;
+        delete temp;
     }
 }
 void ALGraph::BFS()
@@ -256,7 +259,6 @@ void CreateByMatrix(vector<char> &vex, vector<vector<int>> &matrix, int &vexNum,
 int main()
 {
     int k;
-    ALGraph *list = new ALGraph();
     vector<vector<int>> ma;
     vector<char> vex;
     while (true)
@@ -265,47 +267,45 @@ int main()
         cout << "2.Store by AdjList(output the result of bfs and dfs)\n";
         cout << "3.Urban transportation network planning(Kruskal)\n";
         cin >> k;
-        switch (k)
+        if (k == 1)
         {
-        case 1:
             int vexNum, edgNum;
             cout << "Input the number of vertex and edge:" << endl;
             cin >> vexNum >> edgNum;
             ma.resize(vexNum, vector<int>(vexNum, 0));
             vex.resize(vexNum);
             CreateByMatrix(vex, ma, vexNum, edgNum);
-            list->CreateFromMatrix(vex, ma, vexNum, edgNum);
+            // list->CreateFromMatrix(vex, ma, vexNum, edgNum);
             ma.clear();
             vex.clear();
-            break;
-        case 2:
+        }
+        else if (k == 2)
+        {
             int root;
-            list->CreateGraph();
-            if (list->getedgn() > 0)
+            ALGraph list(1);
+            if (list.getedgn() > 0)
             {
                 cout << "BFS:\n";
-                list->BFS();
+                list.BFS();
                 /* cout<<"Input the number which search begin:\n";
                 cin>>root; */
                 cout << "DFS:\n";
-                list->DFS(0);
+                list.DFS(0);
                 cout << endl;
             }
             else
                 cout << "Empty\n";
-            list->clr();
-            break;
-        case 3:
-            list->CreateGraph();
-            cout << "Result:\n";
-            list->Kruskal();
-            cout << endl;
-            list->clr();
-            break;
-        case 0:
-            return 0;
-        default:
-            break;
         }
+        else if (k == 3)
+        {
+            ALGraph list(1);
+            cout << "Result:\n";
+            list.Kruskal();
+            cout << endl;
+        }
+        else if (k == 0)
+            return 0;
+        else
+            continue;
     }
 }
