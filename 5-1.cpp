@@ -50,20 +50,12 @@ public:
     void Merge(int parent, int after);
     int find(int x);
     int Kruskal();
-    void clr();
     ALGraph(vector<char> &vex, vector<vector<int>> &a, int n, int m);
     ALGraph(int a);
 };
 int ALGraph::getedgn()
 {
     return this->edgNum;
-}
-void ALGraph::clr()
-{
-    this->parent.clear();
-    this->adjList.clear();
-    this->visited.clear();
-    this->edge.clear();
 }
 ALGraph::ALGraph(vector<char> &vex, vector<vector<int>> &a, int n, int m)
 {
