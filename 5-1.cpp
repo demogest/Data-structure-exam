@@ -135,9 +135,7 @@ ALGraph::ALGraph(int a)
         edg->weight = weight;
         edg->src = src;
         edg->dest = dest;
-        this->edge[cnt++] = *edg;
-        delete edg;
-        delete temp;
+        this->edge[i] = *edg;
     }
 }
 void ALGraph::BFS()
