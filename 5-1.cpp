@@ -116,7 +116,6 @@ ALGraph::ALGraph(int a)
     }
     if (this->edgNum > 0)
         cout << "Input " << this->edgNum << " edge's info:\n";
-    int cnt = 0;
     for (int i = 0; i < this->edgNum; i++)
     {
         int src, dest, weight;
