@@ -96,14 +96,14 @@ void Insert( htb H, char C, string acc, string pass )
 		pos = Hash(acc, H->size);
 		tmp->Next = H->Heads[pos].Next; 
 		H->Heads[pos].Next= tmp;
-		cout<<"Success\n";
+		cout<<"Create Success\n";
 	} 
-	else if( !P && C == 'l') cout<<"Not Exist\n";
-	else if( P && C == 'n') cout<<"Exist\n";
+	else if( !P && C == 'l') cout<<"Account not exist\n";
+	else if( P && C == 'n') cout<<"Account already exist\n";
 	else if( P && C == 'l')
 	{
 		if( P->pwd==pass )
-			cout<<"Success\n";
+			cout<<"Login Success\n";
 		else
 			cout<<"Wrong pwd\n";
 	}
