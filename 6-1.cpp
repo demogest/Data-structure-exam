@@ -35,8 +35,7 @@ int main(){
         s=s+c;
     }
     sort(a.begin(),a.end());
-    ((result = BinarySearch((cin>>key,key),a),result) != -1)&&cout<<result<<endl;
+    ((result = BinarySearch((cin>>key,key),a),result) != -1)&&cout<<result+1<<endl;
     (result == -1)&&cout<<"Not found\n";
-    system("pause");
     return 0;
 }
