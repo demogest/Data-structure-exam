@@ -17,7 +17,7 @@ struct TblNode
 	List Heads;
 };
 
-htb Create( int size);
+void Create(htb &h, int size);
 void Insert( htb H, char C, string acc, string pass ); 
 void release( htb H );
 
@@ -28,7 +28,7 @@ int main()
 	string acc, pass; 
 	htb H;
 	cin>>n;
-	H = Create(n);
+	Create(H,n);
 	for(i=0; i<n; i++) 
 	{ 
         fflush(stdin);
@@ -52,9 +52,8 @@ int getPrime( int N )
 	return p; 
 }
 
-htb Create( int size) 
+void Create(htb &H,int size) 
 {  
-	htb H; 
 	int i; 
 	H = new ht; 
 	H->size= getPrime(size); 
@@ -65,7 +64,7 @@ htb Create( int size)
 		H->Heads[i].pwd="";
 		H->Heads[i].Next= NULL;  
 	} 
-	return H; 
+	return; 
 }
 
 int Hash( string key, int p ) 
