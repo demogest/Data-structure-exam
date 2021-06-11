@@ -17,22 +17,23 @@ struct TblNode
 	List Heads;
 };
 
-void Create(htb &h, int size);
-void Insert( htb H, char C, string acc, string pass ); 
+void create(htb &h, int size);
+void Insert( htb H, int c, string acc, string pass ); 
 void release( htb H );
 
 int main() 
 {  
-	int n, i;
-	char comm; 
+	int n, i,comm; 
 	string acc, pass; 
 	htb H;
 	cin>>n;
-	Create(H,n);
-	for(i=0; i<n; i++) 
+	create(H,n);
+	for(i=0;; i++) 
 	{ 
         fflush(stdin);
-		cin>>comm>>acc>>pass;
+		cin>>comm;
+		if (comm == 0) break;
+		cin>>acc>>pass;
 		Insert( H, comm, acc, pass ); 
 	}  
 	delete H;
@@ -52,7 +53,7 @@ int getPrime( int N )
 	return p; 
 }
 
-void Create(htb &H,int size) 
+void create(htb &H,int size) 
 {  
 	int i; 
 	H = new ht; 
@@ -83,12 +84,12 @@ Pos Find( htb H, string key )
 	return p;
 }
 
-void Insert( htb H, char C, string acc, string pass ) 
+void Insert( htb H, int c, string acc, string pass ) 
 {  
-	Pos P, tmp; 
+	Pos p, tmp; 
 	int pos;
-	P = Find( H, acc ); 
-	if(!P && C == 'n') 
+	p = Find( H, acc ); 
+	if(!p && c == 1) 
 	{
 		tmp= new node;
 		tmp->Data=acc;
@@ -96,13 +97,13 @@ void Insert( htb H, char C, string acc, string pass )
 		pos = Hash(acc, H->size);
 		tmp->Next = H->Heads[pos].Next; 
 		H->Heads[pos].Next= tmp;
-		cout<<"Create Success\n";
+		cout<<"create Success\n";
 	} 
-	else if( !P && C == 'l') cout<<"Account not exist\n";
-	else if( P && C == 'n') cout<<"Account already exist\n";
-	else if( P && C == 'l')
+	else if( !p && c == 2) cout<<"Account not exist\n";
+	else if( p && c == 1) cout<<"Account already exist\n";
+	else if( p && c == 2)
 	{
-		if( P->pwd==pass )
+		if( p->pwd==pass )
 			cout<<"Login Success\n";
 		else
 			cout<<"Wrong pwd\n";
