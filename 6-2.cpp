@@ -17,12 +17,10 @@ void insert(bst &root,int key){
         root->right=root->left=NULL;
         return;
     }
-    if (key>root->value){
+    if (key>root->value)
         insert(root->right,key);
-    }
-    else if (key<root->value){
+    else if (key<root->value)
         insert(root->left,key);
-    }
     return;
 }
 void dele(bst &root,int key){
