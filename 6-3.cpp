@@ -22,19 +22,19 @@ void execute( htb &h, int c, string acc, string pass );
 
 int main() 
 {  
-	int n, i,comm; 
+	int n, i,command; 
 	string acc, pass; 
 	htb h;
 	cin>>n;
 	create(h,n);
 	for(i=0;; i++) 
 	{ 
-		cout<<"1.Sign up\n2.Sign in\n0.Exit\nInput('chose number' 'account' 'password's):";
+		cout<<"1.Sign up\n2.Sign in\n0.Exit\nInput('chose number' 'account' 'password'):";
         fflush(stdin);
-		cin>>comm;
-		if (comm == 0) break;
+		cin>>command;
+		if (command == 0) break;
 		cin>>acc>>pass;
-		execute( h, comm, acc, pass ); 
+		execute( h, command, acc, pass ); 
 	}  
 	delete h;
 	return 0;
