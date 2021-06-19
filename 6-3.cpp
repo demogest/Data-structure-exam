@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 
-#define MAXTABLESIZE 100000
+#define MAXSIZE 100000
 using namespace std;
 typedef struct LNode node,*List,*Pos;
 struct LNode
@@ -18,32 +18,32 @@ struct TblNode
 };
 
 void create(htb &h, int size);
-void Insert( htb H, int c, string acc, string pass ); 
-void release( htb H );
+void execute( htb &h, int c, string acc, string pass ); 
 
 int main() 
 {  
 	int n, i,comm; 
 	string acc, pass; 
-	htb H;
+	htb h;
 	cin>>n;
-	create(H,n);
+	create(h,n);
 	for(i=0;; i++) 
 	{ 
+		cout<<"1.Sign up\n2.Sign in\n0.Exit\nInput('chose number' 'account' 'password's):";
         fflush(stdin);
 		cin>>comm;
 		if (comm == 0) break;
 		cin>>acc>>pass;
-		Insert( H, comm, acc, pass ); 
+		execute( h, comm, acc, pass ); 
 	}  
-	delete H;
+	delete h;
 	return 0;
 }
 
 int getPrime( int N ) 
 {
 	int i, p = (N%2)? N+2 : N+1;
-	while( p <= MAXTABLESIZE ) 
+	while( p <= MAXSIZE ) 
 	{ 
 		for( i=(int)sqrt(p); i>2; i--) 
 			if( !(p%i) ) break;
@@ -54,7 +54,7 @@ int getPrime( int N )
 }
 
 void create(htb &H,int size) 
-{  
+{
 	int i; 
 	H = new ht; 
 	H->size= getPrime(size); 
@@ -84,19 +84,19 @@ Pos Find( htb H, string key )
 	return p;
 }
 
-void Insert( htb H, int c, string acc, string pass ) 
+void execute( htb &h, int c, string acc, string pass ) 
 {  
 	Pos p, tmp; 
 	int pos;
-	p = Find( H, acc ); 
+	p = Find( h, acc ); 
 	if(!p && c == 1) 
 	{
 		tmp= new node;
 		tmp->Data=acc;
 		tmp->pwd=pass;
-		pos = Hash(acc, H->size);
-		tmp->Next = H->Heads[pos].Next; 
-		H->Heads[pos].Next= tmp;
+		pos = Hash(acc, h->size);
+		tmp->Next = h->Heads[pos].Next; 
+		h->Heads[pos].Next= tmp;
 		cout<<"create Success\n";
 	} 
 	else if( !p && c == 2) cout<<"Account not exist\n";
