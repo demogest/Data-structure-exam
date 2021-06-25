@@ -12,7 +12,7 @@ void sort(jd a[]){
     for(int i=0; i<9; i++){
         isSorted = 1;
         for(int j=0; j<9-i; j++){
-            if(a[j].score > a[j+1].score){
+            if(a[j].score < a[j+1].score){
                 isSorted = 0;
                 jd temp = a[j];
                 a[j] = a[j+1];
@@ -37,7 +37,6 @@ int findfair(jd a[],float sum){
     }
     return a[k].judgeNo;
 }
-
 int main(){
     int n,i;
     float sum=0;
@@ -51,6 +50,10 @@ int main(){
             Judge[i].judgeNo = i;
         }
         sort(Judge);
+        for (i=0;i<10;i++){
+            printf("%f ",Judge[i].score);
+        }
+        printf("\n");
         sum = (sum - Judge[0].score - Judge[9].score)/8;
         printf("The score is:%f\n",sum);
         printf("The most unfair judge is:%d\n",fabs(Judge[0].score - sum)>fabs(Judge[9].score - sum) ? Judge[0].judgeNo : Judge[9].judgeNo);
